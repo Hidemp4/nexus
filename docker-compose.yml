@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: nexus-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: nexus-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: nexus
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: nexus
+      MYSQL_PASSWORD: nexus
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
