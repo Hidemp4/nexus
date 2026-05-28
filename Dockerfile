@@ -1,3 +1,14 @@
+FROM node:22 AS frontend
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+
 FROM php:8.3.6-cli
 
 RUN apt-get update && apt-get install -y \
@@ -20,11 +31,14 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader
 
-# 👇 IMPORTANTE
+COPY --from=frontend /app/public/build ./public/build
+
+RUN rm -f public/hot
+
 RUN mkdir -p database && touch database/database.sqlite
 
 EXPOSE 8000
 
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
