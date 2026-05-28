@@ -7,7 +7,7 @@
         : 'background: transparent; border-bottom: 1px solid transparent;'"
     class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-transparent"
 >
-    <nav class="max-w-screen-xl mx-auto px-6 md:px-10 h-14 flex items-center justify-between">
+    <nav class="max-w-7xl mx-auto px-6 md:px-10 h-14 flex items-center justify-between">
 
         {{-- Logo --}}
         <a href="{{ url('/') }}" class="flex items-center gap-2.5 no-underline">
